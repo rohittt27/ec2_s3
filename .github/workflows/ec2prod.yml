@@ -17,7 +17,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+
       - name: Set up Apache
         run: |
           sudo apt-get update
@@ -34,6 +34,6 @@ jobs:
         run: |
             sudo rm /etc/apache2/sites-available/000-default.conf
             sudo cp /home/dell/devOps/django_ec2/s3pro/apache/prod.conf /etc/apache2/sites-available/
-            sudo cat /etc/apache2/sites-available/local.conf 
+            sudo cat /etc/apache2/sites-available/prod.conf
             sudo service apache2 reload 
-            sudo a2ensite local.conf
+            sudo a2ensite prod.conf
