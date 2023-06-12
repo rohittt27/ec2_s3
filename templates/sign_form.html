@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Form</title>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Sign Up">
+    </form>
+</body>
+</html>
