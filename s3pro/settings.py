@@ -76,10 +76,17 @@ WSGI_APPLICATION = 's3pro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+#AWS RDS(MySql) settings
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':'django.db.backends.mysql',
+        'NAME':'dbtest',
+        'USER':'admin',
+        'PASSWORD':'AWSrohit',
+        'HOST':'dbtest.cmiv2xuhgbhi.ap-south-1.rds.amazonaws.com',
+        'PORT':'3306',
     }
 }
 
@@ -127,3 +134,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#AWS S3 Bucket settings
+
+AWS_ACCESS_KEY_ID = 'AKIA34VM72MA4T77HIK2'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'rohitttt-bucket'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

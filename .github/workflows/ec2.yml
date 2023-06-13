@@ -1,0 +1,49 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1b
+
+      - name: Connect to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: 13.233.137.165
+          username: rohittt
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install Apache and mod_wsgi
+        run: |
+          sudo apt-get update
+          sudo apt-get install apache2 libapache2-mod-wsgi-py3 -y
+
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io -y
+
+      - name: Build and deploy Dockerized Django app
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml up -d
+
+      - name: Configure Apache for Django
+        run: |
+          sudo cp /home/dell/devOps/django_ec2/s3pro/apache/prod.conf /etc/apache2/sites-available/
+          sudo a2ensite prod.conf
+          sudo service apache2 restart
