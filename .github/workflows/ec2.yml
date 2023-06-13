@@ -42,8 +42,22 @@ jobs:
       #     docker-compose -f docker-compose.yml build
       #     docker-compose -f docker-compose.yml up -d
 
-      - name: Configure Apache for Django
+      - name: Set up Apache
         run: |
-          sudo cp /home/dell/devOps/django_ec2/s3pro/apache/prod.conf /etc/apache2/sites-available/
-          sudo a2ensite prod.conf
-          sudo service apache2 restart
+          sudo apt-get update
+          sudo apt-get install -y apache2
+          # Configure Apache as per your project requirements
+      - name: Create project directory
+        run: sudo mkdir -p /home/dell/devOps/django_ec2/s3pro
+      - name: Copy project files to Apache document root
+        run: |
+          sudo cp -r * /home/dell/devOps/django_ec2/s3pro
+      - name: Restart Apache
+        run: sudo systemctl restart apache2
+      - name: Configure Apache Server
+        run: |
+            sudo rm /etc/apache2/sites-available/000-default.conf
+            sudo cp /home/dell/devOps/django_ec2/s3pro/apache/prod.conf /etc/apache2/sites-available/
+            sudo cat /etc/apache2/sites-available/prod.conf
+            sudo service apache2 reload 
+            sudo a2ensite prod.conf
