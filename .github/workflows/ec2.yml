@@ -24,7 +24,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: 13.233.137.165
-          username: rohittt
+          username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install Apache and mod_wsgi
